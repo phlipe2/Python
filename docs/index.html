@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>João Phellipe Elétrica</title>
+<meta name="description" content="Eletricista no DF e entorno. Instalação, manutenção e iluminação com acabamento perfeito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a dark "lit room" hero you can switch and dim, then calm light sections that read like a service sheet. */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --fg: #16202b;
+  --muted: #566372;
+  --line: #d5dce4;
+  --accent: #b4650f;        /* copper / warm light, readable on light */
+  --accent-soft: #f6e3c8;
+  --night: #0d131b;         /* hero room, fixed in both themes */
+  --night-2: #18212d;
+  --night-fg: #eef2f6;
+  --night-muted: #9aa8b8;
+  --glow: 255 180 107;      /* set by the color-temperature slider */
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111820; --surface: #18212c; --fg: #e8edf2; --muted: #9aa7b5;
+    --line: #2a3644; --accent: #f0a54a; --accent-soft: #3a2a17; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111820; --surface: #18212c; --fg: #e8edf2; --muted: #9aa7b5;
+  --line: #2a3644; --accent: #f0a54a; --accent-soft: #3a2a17; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.6;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow {
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent);
+}
+
+/* ---------- Hero: the room ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  background: var(--night); color: var(--night-fg);
+  margin-top: calc(-1 * env(safe-area-inset-top, 0px));
+  padding-top: calc(env(safe-area-inset-top, 0px) + 0px);
+  color-scheme: dark;
+}
+.room { position: absolute; inset: 0; pointer-events: none; transition: opacity .6s ease; }
+.cove {
+  position: absolute; top: 0; left: 0; right: 0; height: 10px;
+  background: rgb(var(--glow));
+  box-shadow: 0 0 40px 10px rgb(var(--glow) / .55), 0 0 160px 40px rgb(var(--glow) / .25);
+}
+.wash {
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 70% at 50% -10%, rgb(var(--glow) / .32), transparent 60%);
+}
+.spot { position: absolute; top: 0; width: 220px; height: 100%; transform: translateX(-50%); }
+.spot::before {
+  content: ""; position: absolute; top: 18px; left: 50%; width: 26px; height: 8px;
+  transform: translateX(-50%); border-radius: 0 0 14px 14px;
+  background: #2b3542; box-shadow: 0 6px 18px 4px rgb(var(--glow) / .8);
+}
+.spot::after {
+  content: ""; position: absolute; top: 26px; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to bottom, rgb(var(--glow) / .30), rgb(var(--glow) / 0) 75%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+}
+.spot:nth-child(3) { left: 18%; }
+.spot:nth-child(4) { left: 50%; }
+.spot:nth-child(5) { left: 82%; }
+.hero.off .room { opacity: 0; }
+
+.hero-inner {
+  position: relative; display: grid; gap: 28px;
+  padding-block: 120px 56px;
+}
+.hero h1 { font-size: clamp(2.3rem, 6vw, 4.4rem); font-weight: 800; letter-spacing: -.02em; max-width: 14ch; }
+.hero h1 em { font-style: normal; color: rgb(var(--glow)); transition: color .4s; }
+.hero.off h1 em { color: var(--night-muted); }
+.hero .lead { color: var(--night-muted); font-size: 1.125rem; max-width: 52ch; }
+.hero .eyebrow { color: rgb(var(--glow)); }
+.hero.off .eyebrow { color: var(--night-muted); }
+
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  font-weight: 600; font-size: 1rem; padding: 14px 22px; border-radius: 999px;
+  border: 1px solid transparent; cursor: pointer; font-family: var(--font-body);
+}
+.btn-primary { background: #25d366; color: #0b2b16; }
+.btn-primary:hover { background: #3ee07a; }
+.btn-ghost { background: transparent; color: var(--night-fg); border-color: #3a4757; }
+.btn-ghost:hover { border-color: var(--night-muted); }
+
+.panel {
+  display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center;
+  margin-top: 8px; padding: 14px 18px; border-radius: 14px;
+  background: rgb(24 33 45 / .75); border: 1px solid #2a3644; width: fit-content; max-width: 100%;
+  backdrop-filter: blur(6px);
+}
+.panel-label { font-family: var(--font-mono); font-size: .75rem; color: var(--night-muted); letter-spacing: .06em; }
+.switch {
+  display: inline-flex; align-items: center; gap: 10px; background: none; border: 0;
+  color: var(--night-fg); font: 500 .9rem var(--font-body); cursor: pointer; padding: 0;
+}
+.switch .plate {
+  width: 46px; height: 26px; border-radius: 999px; background: #2a3644; position: relative; transition: background .3s;
+}
+.switch .plate::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%;
+  background: #cfd7e0; transition: transform .3s;
+}
+.switch[aria-pressed="true"] .plate { background: rgb(var(--glow)); }
+.switch[aria-pressed="true"] .plate::after { transform: translateX(20px); background: #fff; }
+.temp { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.temp input { width: 170px; accent-color: rgb(var(--glow)); }
+.temp output { font-family: var(--font-mono); font-size: .9rem; min-width: 9ch; font-variant-numeric: tabular-nums; }
+
+/* ---------- Sections ---------- */
+section { padding-block: 72px; }
+.sec-head { display: grid; gap: 10px; margin-bottom: 36px; max-width: 62ch; }
+.sec-head h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); font-weight: 700; letter-spacing: -.01em; }
+.sec-head p { color: var(--muted); font-size: 1.05rem; }
+
+/* Lighting highlight */
+.light-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: start; }
+.finish-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.finish-list li { display: grid; grid-template-columns: 9ch 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.finish-list .tag { font-family: var(--font-mono); font-size: .78rem; color: var(--accent); padding-top: 3px; }
+.finish-list strong { display: block; font-weight: 600; }
+.finish-list span.d { color: var(--muted); font-size: .95rem; }
+.kelvin {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+  display: grid; gap: 16px;
+}
+.kelvin h3 { font-size: 1.25rem; }
+.kelvin p { color: var(--muted); font-size: .95rem; }
+.k-scale { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.k-chip { border-radius: 12px; padding: 14px 12px; border: 1px solid var(--line); display: grid; gap: 4px; min-width: 0; }
+.k-chip b { font-family: var(--font-mono); font-weight: 500; font-size: .95rem; }
+.k-chip small { color: var(--muted); font-size: .8rem; line-height: 1.35; }
+.k-chip i { display: block; height: 8px; border-radius: 4px; margin-bottom: 6px; }
+
+/* Services */
+.services { background: var(--surface); border-block: 1px solid var(--line); }
+.svc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.svc { background: var(--surface); padding: 22px 20px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.svc svg { width: 26px; height: 26px; stroke: var(--accent); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.svc h3 { font-size: 1.05rem; font-weight: 700; }
+.svc p { color: var(--muted); font-size: .92rem; }
+.svc.star { background: var(--accent-soft); }
+
+/* Clients */
+.clients { display: flex; flex-wrap: wrap; gap: 10px; }
+.client {
+  border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+  padding: 10px 18px; font-weight: 500;
+}
+
+/* Process: a real sequence */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; gap: 8px; align-content: start; padding-top: 16px; border-top: 2px solid var(--fg); min-width: 0; }
+.steps li::before { content: "Passo " counter(s); font-family: var(--font-mono); font-size: .75rem; color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+.steps h3 { font-size: 1.15rem; }
+.steps p { color: var(--muted); font-size: .95rem; }
+
+/* Contact */
+.contact { background: var(--night); color: var(--night-fg); color-scheme: dark; }
+.contact .sec-head p { color: var(--night-muted); }
+.contact .eyebrow { color: rgb(var(--glow)); }
+.contact-card {
+  display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+  border: 1px solid #2a3644; background: var(--night-2); border-radius: 18px; padding: 28px;
+}
+.phone { font-family: var(--font-mono); font-size: clamp(1.4rem, 4vw, 2rem); letter-spacing: .02em; user-select: all; }
+.contact-meta { color: var(--night-muted); font-size: .95rem; margin-top: 6px; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.copied { font-size: .85rem; color: var(--night-muted); min-height: 1.2em; }
+
+footer { padding-block: 28px; color: var(--muted); font-size: .85rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+
+@media (max-width: 860px) {
+  .light-grid { grid-template-columns: 1fr; }
+  .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .contact-card { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .svc-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .spot:nth-child(3), .spot:nth-child(5) { display: none; }
+  .hero-inner { padding-block: 96px 44px; }
+  .k-scale { grid-template-columns: 1fr; }
+  .finish-list li { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero">
+  <div class="room" aria-hidden="true">
+    <div class="wash"></div>
+    <div class="cove"></div>
+    <div class="spot"></div>
+    <div class="spot"></div>
+    <div class="spot"></div>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Eletricista · DF e entorno</span>
+    <h1>Iluminação com <em>acabamento de obra grande.</em></h1>
+    <p class="lead">Sou João Phellipe. Faço instalação, manutenção e iluminação para casas, condomínios, comércios e obras, com o mesmo capricho que levei para várias obras de grande porte: spot alinhado, fita LED sem emenda aparente e quadro organizado.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://wa.me/5561981800378?text=Ol%C3%A1%20Jo%C3%A3o%2C%20vi%20seu%20site%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3c-.3.3-1 1-1 2.3s1 2.7 1.1 2.9c.1.2 2 3.1 4.9 4.3 1.8.8 2.5.8 3.4.7.6-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.5-.3Z"/></svg>
+        Pedir orçamento no WhatsApp
+      </a>
+      <a class="btn btn-ghost" href="#iluminacao">Ver o que faço</a>
+    </div>
+    <div class="panel" role="group" aria-label="Simulador de iluminação">
+      <button class="switch" id="switch" type="button" aria-pressed="true">
+        <span class="plate" aria-hidden="true"></span><span id="switch-label">Luz acesa</span>
+      </button>
+      <div class="temp">
+        <label class="panel-label" for="kelvin">Temperatura de cor</label>
+        <input type="range" id="kelvin" min="2700" max="6000" step="100" value="3000">
+        <output id="kelvin-out" for="kelvin">3000 K</output>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="iluminacao">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Especialidade</span>
+        <h2>A luz certa só funciona com o acabamento certo.</h2>
+        <p>Iluminação fica no lugar mais visível da casa. Por isso, cada detalhe da instalação aparece, e é nesses detalhes que eu capricho.</p>
+      </div>
+      <div class="light-grid">
+        <ul class="finish-list">
+          <li><span class="tag">Spots</span><div><strong>Embutidos alinhados no eixo</strong><span class="d">Marcação precisa antes de furar o gesso, com a mesma distância entre todos.</span></div></li>
+          <li><span class="tag">Fita LED</span><div><strong>Sancas e perfis sem pontos escuros</strong><span class="d">Perfil de alumínio com difusor, emendas escondidas e driver dimensionado para a carga.</span></div></li>
+          <li><span class="tag">Pendentes</span><div><strong>Altura e centralização corretas</strong><span class="d">Sobre bancada, mesa ou ilha, medidos a partir do uso e não só do ponto que já existia.</span></div></li>
+          <li><span class="tag">Comandos</span><div><strong>Circuitos separados e dimerização</strong><span class="d">Cenas diferentes para cada ambiente, com interruptores paralelos ou automação.</span></div></li>
+          <li><span class="tag">Quadro</span><div><strong>Organizado e identificado</strong><span class="d">Cada disjuntor com etiqueta e fiação penteada, o que facilita qualquer manutenção futura.</span></div></li>
+          <li><span class="tag">Entrega</span><div><strong>Ambiente limpo</strong><span class="d">Sem poeira de furação, sem fio sobrando e sem marca na parede.</span></div></li>
+        </ul>
+        <aside class="kelvin" aria-labelledby="k-title">
+          <h3 id="k-title">Qual luz para cada ambiente?</h3>
+          <p>A temperatura de cor, medida em Kelvin (K), muda a sensação do ambiente. Teste no topo da página e veja a diferença.</p>
+          <div class="k-scale">
+            <div class="k-chip"><i style="background:#ffad5c"></i><b>2700–3000 K</b><small>Quartos, salas e varandas. Luz amarela e aconchegante.</small></div>
+            <div class="k-chip"><i style="background:#ffd6a8"></i><b>3500–4000 K</b><small>Cozinha, banheiro e lojas. Neutra, mostra a cor real.</small></div>
+            <div class="k-chip"><i style="background:#e9eef7"></i><b>5000–6000 K</b><small>Garagem, depósito e áreas de trabalho. Luz branca e fria.</small></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="servicos">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Serviços</span>
+        <h2>Da entrada de energia ao último ponto de luz.</h2>
+        <p>Atendo residências, comércios, condomínios e obras no DF e entorno.</p>
+      </div>
+      <div class="svc-grid">
+        <article class="svc star">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3Z"/></svg>
+          <h3>Iluminação</h3>
+          <p>Spots, pendentes, sancas, perfis e fita LED, com acabamento de primeira.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10l8-6 8 6v10M9 20v-6h6v6"/></svg>
+          <h3>Instalação completa</h3>
+          <p>Elétrica de casa, apartamento ou sala comercial, do zero ou em reforma.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5Z"/></svg>
+          <h3>Manutenção</h3>
+          <p>Preventiva e corretiva: disjuntor desarmando, tomada queimada, curto e oscilação.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7v4M12 7v4M16 7v4M8 15h8"/></svg>
+          <h3>Quadro de distribuição</h3>
+          <p>Montagem, troca e reorganização, com disjuntores e DR dimensionados.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6M8 8h8l-1 5H9L8 8ZM12 13v9M7 22h10"/></svg>
+          <h3>Padrão de entrada</h3>
+          <p>Instalação e adequação do padrão para ligação nova ou aumento de carga.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+          <h3>SPDA (para-raios)</h3>
+          <p>Sistema de proteção contra descargas atmosféricas para prédios e galpões.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7V3Z"/><path d="M14 3v5h5M10 13l2 2 4-4"/></svg>
+          <h3>Laudos elétricos</h3>
+          <p>Vistoria da instalação para condomínio, imobiliária, empresa ou seguro.</p>
+        </article>
+        <article class="svc">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4M9 7h6M9 11h6"/></svg>
+          <h3>Automação</h3>
+          <p>Iluminação e tomadas comandadas pelo celular, por voz ou por cenas programadas.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="clientes">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Para quem</span>
+        <h2>Quem já precisa de um eletricista de confiança.</h2>
+      </div>
+      <div class="clients">
+        <span class="client">Residências</span>
+        <span class="client">Condomínios e síndicos</span>
+        <span class="client">Imobiliárias</span>
+        <span class="client">Construtoras</span>
+        <span class="client">Arquitetos e designers de interiores</span>
+        <span class="client">Comércios e restaurantes</span>
+        <span class="client">Clínicas e escritórios</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Do primeiro contato à entrega.</h2>
+      </div>
+      <ol class="steps">
+        <li><h3>Você me chama</h3><p>Manda mensagem no WhatsApp contando o que precisa, com fotos se tiver.</p></li>
+        <li><h3>Avaliação no local</h3><p>Vou até você, vejo a instalação e entendo o resultado que você quer.</p></li>
+        <li><h3>Orçamento claro</h3><p>Você recebe o valor do serviço e a lista de material, sem surpresa depois.</p></li>
+        <li><h3>Execução e entrega</h3><p>Serviço feito com acabamento caprichado, testado e com o ambiente limpo.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Contato</span>
+        <h2>Vamos acender o seu projeto?</h2>
+        <p>Atendo Brasília e todo o entorno do DF. Chame no WhatsApp para pedir orçamento.</p>
+      </div>
+      <div class="contact-card">
+        <div>
+          <div class="phone" id="phone">(61) 98180-0378</div>
+          <div class="contact-meta">João Phellipe · Eletricista · DF e entorno</div>
+          <div class="copied" id="copied" aria-live="polite"></div>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="https://wa.me/5561981800378?text=Ol%C3%A1%20Jo%C3%A3o%2C%20vi%20seu%20site%20e%20gostaria%20de%20um%20or%C3%A7amento." target="_blank" rel="noopener">Abrir WhatsApp</a>
+          <button class="btn btn-ghost" id="copy" type="button">Copiar número</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>João Phellipe Elétrica · DF e entorno</span>
+    <span>(61) 98180-0378</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var hero = document.getElementById('hero');
+  var sw = document.getElementById('switch');
+  var swLabel = document.getElementById('switch-label');
+  var range = document.getElementById('kelvin');
+  var out = document.getElementById('kelvin-out');
+  var root = document.documentElement;
+
+  // Approximate light color for each color temperature (K).
+  var stops = [
+    [2700, [255, 169, 87]], [3000, [255, 180, 107]], [3500, [255, 196, 137]],
+    [4000, [255, 209, 163]], [5000, [255, 228, 206]], [6000, [255, 243, 239]]
+  ];
+  function kelvinRGB(k) {
+    for (var i = 0; i < stops.length - 1; i++) {
+      var a = stops[i], b = stops[i + 1];
+      if (k <= b[0]) {
+        var t = (k - a[0]) / (b[0] - a[0]);
+        return a[1].map(function (v, j) { return Math.round(v + (b[1][j] - v) * t); });
+      }
+    }
+    return stops[stops.length - 1][1];
+  }
+  function setTemp() {
+    var k = Number(range.value);
+    root.style.setProperty('--glow', kelvinRGB(k).join(' '));
+    out.textContent = k + ' K';
+  }
+  range.addEventListener('input', setTemp);
+  setTemp();
+
+  sw.addEventListener('click', function () {
+    var on = sw.getAttribute('aria-pressed') !== 'true';
+    sw.setAttribute('aria-pressed', String(on));
+    swLabel.textContent = on ? 'Luz acesa' : 'Luz apagada';
+    hero.classList.toggle('off', !on);
+  });
+
+  var copyBtn = document.getElementById('copy');
+  var copied = document.getElementById('copied');
+  var phone = document.getElementById('phone');
+  copyBtn.addEventListener('click', function () {
+    var text = '61981800378';
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(phone);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      copied.textContent = 'Número selecionado. Use Ctrl+C ou "Copiar" para copiar.';
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        copied.textContent = 'Número copiado.';
+      }, fallback);
+    } catch (e) { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
