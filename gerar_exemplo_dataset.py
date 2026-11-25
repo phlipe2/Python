@@ -58,8 +58,8 @@ def gerar_dataset_exemplo():
     # Cria DataFrame
     df = pd.DataFrame(dados)
 
-    # Salva
-    output_path = '/home/user/Python/CLEAN_House5_EXEMPLO.csv'
+    # Salva (funciona em Windows/Linux/Mac)
+    output_path = 'CLEAN_House5_EXEMPLO.csv'
     df.to_csv(output_path, index=False)
 
     print(f"✅ Dataset gerado: {output_path}")
